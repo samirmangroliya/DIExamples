@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -37,6 +38,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
+        dataBinding = true
+    }
+    defaultConfig {
+        buildConfigField("String","BASE_URL","\"https://api.github.com/\"")
     }
 }
 
@@ -53,6 +59,29 @@ dependencies {
     //hilt
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
+
+    // Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.retrofit2.converter.gson)
+    implementation (libs.retrofit.logging)
+
+    //Room Database
+    implementation(libs.room.runtime)
+    ksp (libs.androidx.room.compiler)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Glide
+    implementation(libs.glide)
+    ksp (libs.compiler)
+
+    // Timber
+    implementation(libs.timber)
+
+    // Leak Canary
+    debugImplementation(libs.leakcanary.android)
 
 
     androidTestImplementation(libs.androidx.junit)

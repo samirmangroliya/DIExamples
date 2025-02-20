@@ -1,37 +1,64 @@
 package com.kriyantechzone.hiltandroidapps
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ui.AppBarConfiguration
 import com.kriyantechzone.hiltandroidapps.databinding.ActivityMainBinding
+import com.kriyantechzone.hiltandroidapps.di.ExampleInterface
+import com.kriyantechzone.hiltandroidapps.di.FirstImplementation
+import com.kriyantechzone.hiltandroidapps.di.SecondImplementation
+import com.kriyantechzone.hiltandroidapps.view.UserListViewModel
+import com.kriyantechzone.hiltandroidapps.view.UsersListAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Qualifier
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModelUserList by viewModels<UserListViewModel>()
+
+  /*
+    @Inject
+    @Named("First")
+    lateinit var exampleInterfaceImp1:ExampleInterface
+
+    @Inject
+    @Named("Second")
+    lateinit var exampleInterfaceImp2:ExampleInterface*/
+
+    @Inject
+    @FirstImplementation
+    lateinit var exampleInterfaceImp1:ExampleInterface
+
+    @Inject
+    @SecondImplementation
+    lateinit var exampleInterfaceImp2:ExampleInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        exampleInterfaceImp1.sayHello()
+        exampleInterfaceImp2.sayHello()
+
+        viewModelUserList.users.observe(this@MainActivity) {
+            binding.maincontent.rvuserlist.adapter = UsersListAdapter(it) {
+                Log.d("clicked user name", it.login)
+            }
+
         }
     }
 
@@ -52,8 +79,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+      /*  val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+                || super.onSupportNavigateUp()*/
+        return true
     }
 }

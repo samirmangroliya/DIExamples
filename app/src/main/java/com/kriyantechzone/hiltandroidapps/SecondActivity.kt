@@ -1,70 +1,44 @@
 package com.kriyantechzone.hiltandroidapps
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ui.AppBarConfiguration
 import com.kriyantechzone.hiltandroidapps.databinding.ActivityMainBinding
+import com.kriyantechzone.hiltandroidapps.databinding.ActivitySecondBinding
 import com.kriyantechzone.hiltandroidapps.di.Dev
 import com.kriyantechzone.hiltandroidapps.di.Employee
 import com.kriyantechzone.hiltandroidapps.di.Management
 import com.kriyantechzone.hiltandroidapps.view.UserListViewModel
+import com.kriyantechzone.hiltandroidapps.view.UsersListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.ActivityRetainedScoped
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-   private lateinit var binding: ActivityMainBinding
-
-    private val viewModelUserList by viewModels<UserListViewModel>()
-
-    /*
-      @Inject
-      @Named("First")
-      lateinit var developer:Employee
-
-      @Inject
-      @Named("Second")
-      lateinit var manager:Employee*/
-
-    @ActivityRetainedScoped
-    class AnalyticsAdapter @Inject constructor() {  }
+class SecondActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySecondBinding
 
     @Inject
     @Dev
     lateinit var developer: Employee
 
     @Inject
-    @Dev
-    lateinit var developer2: Employee
-
-    @Inject
     @Management
-    lateinit var manager: Employee
-
-    @Inject
-    lateinit var analyticsAdapter: AnalyticsAdapter
+    lateinit var manager:Employee
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        Timber.tag("Test").d("Analytics is Called..." + analyticsAdapter.hashCode())
 
         developer.employeeType()
         manager.employeeType()
-
-        binding.maincontent.btnnext.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SecondActivity::class.java))
-        }
 
 
     }
@@ -85,9 +59,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {/*  val navController = findNavController(R.id.nav_host_fragment_content_main)
-          return navController.navigateUp(appBarConfiguration)
-                  || super.onSupportNavigateUp()*/
+    override fun onSupportNavigateUp(): Boolean {
+      /*  val navController = findNavController(R.id.nav_host_fragment_content_main)
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()*/
         return true
     }
 }

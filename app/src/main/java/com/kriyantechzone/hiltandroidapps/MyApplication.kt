@@ -1,8 +1,6 @@
 package com.kriyantechzone.hiltandroidapps
 
 import android.app.Application
-import android.content.res.Configuration
-import android.util.Log
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -16,11 +14,4 @@ class MyApplication : Application(){
         }
         Timber.tag("MyApplication").d("Started App OnCreate Called...")
     }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        Timber.tag("MyApplication").d("onConfigurationChanged Called...%s", newConfig.orientation)
-    }
-
 }

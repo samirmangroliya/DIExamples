@@ -13,7 +13,7 @@ data class User(
 
     @SerializedName("avatar_url")
     @Expose
-    val avatar_url: String,
+    val avatarUrl: String,
 
     @SerializedName("id")
     @Expose

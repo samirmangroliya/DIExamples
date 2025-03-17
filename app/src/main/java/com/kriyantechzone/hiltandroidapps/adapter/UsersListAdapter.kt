@@ -1,13 +1,17 @@
-package com.kriyantechzone.hiltandroidapps.view
+package com.kriyantechzone.hiltandroidapps.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kriyantechzone.hiltandroidapps.databinding.ItemUsersListBinding
 import com.kriyantechzone.hiltandroidapps.network.model.User
 import javax.inject.Inject
 
-class UsersListAdapter @Inject constructor(private val data:List<User>, val onItemClick:(User)->Unit) :
+class UsersListAdapter @Inject constructor(
+    private val data: List<User>,
+    private val onItemClick: (User) -> Unit
+) :
     RecyclerView.Adapter<UsersListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -27,9 +31,13 @@ class UsersListAdapter @Inject constructor(private val data:List<User>, val onIt
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: User, onItemClick: (User) -> Unit) {
-            binding.user = user
-            itemView.setOnClickListener { onItemClick(user) }
-            binding.executePendingBindings()
+            binding.apply {
+                this.user = user
+                Glide.with(itemView.context)
+                    .load(user.avatarUrl).into(imageView)
+                itemView.setOnClickListener { onItemClick(user) }
+                executePendingBindings()
+            }
         }
 
         companion object {

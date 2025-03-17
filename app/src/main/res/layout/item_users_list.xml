@@ -9,9 +9,6 @@
             name="user"
             type="com.kriyantechzone.hiltandroidapps.network.model.User" />
 
-        <!--   <variable
-               name="clickListener"
-               type="com.kriyantechzone.hiltandroidapps.view.ClickListener" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"

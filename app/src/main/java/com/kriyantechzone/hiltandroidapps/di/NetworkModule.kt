@@ -20,36 +20,37 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOKHttpClient(): OkHttpClient = if(BuildConfig.DEBUG) {
-        val loggingInterceptor =  HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+    fun provideOKHttpClient(): OkHttpClient =
+        OkHttpClient
+            .Builder()
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    val loggingInterceptor = HttpLoggingInterceptor()
+                    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                    addInterceptor(loggingInterceptor)
+                }
+            }
+            .build()
 
-        OkHttpClient
-            .Builder()
-            .writeTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(loggingInterceptor)
-            .build()
-    } else{
-        OkHttpClient
-            .Builder()
-            .writeTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(1, TimeUnit.MINUTES)
-            .build()
-    }
 
     @Singleton
     @Provides
     fun provideGsonConverterFactory(): GsonConverterFactory =
-         GsonConverterFactory.create(GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-         .create())
+        GsonConverterFactory.create(
+            GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+                .create()
+        )
 
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, converterFactory:GsonConverterFactory):Retrofit = Retrofit.Builder()
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: GsonConverterFactory
+    ): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(converterFactory)
@@ -57,8 +58,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit:Retrofit):ApiService = retrofit.create(ApiService::class.java)
-
+    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
 
 }

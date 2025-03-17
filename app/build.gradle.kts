@@ -65,24 +65,12 @@ dependencies {
     implementation (libs.retrofit2.converter.gson)
     implementation (libs.retrofit.logging)
 
-    //Room Database
-    implementation(libs.room.runtime)
-    ksp (libs.androidx.room.compiler)
-
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
     // Glide
     implementation(libs.glide)
     ksp (libs.compiler)
 
     // Timber
     implementation(libs.timber)
-
-    // Leak Canary
-    debugImplementation(libs.leakcanary.android)
-
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

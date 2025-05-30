@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HiltAndroidApps"
+rootProject.name = "Rest-API-Call-Android-MVVM-Hilt"
 include(":app")
  
